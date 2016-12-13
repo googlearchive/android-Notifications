@@ -15,10 +15,5 @@
   ~ limitations under the License.
   -->
 <resources>
-    <dimen name="recycler_row_text_size">20sp</dimen>
-
-    <dimen name="activity_notification_details_top_padding">36dp</dimen>
-    <dimen name="activity_notification_details_bottom_padding">22dp</dimen>
-    <dimen name="activity_notification_details_right_padding">36dp</dimen>
-    <dimen name="activity_notification_details_left_padding">22dp</dimen>
+    <style name="AppThemeOverride" parent="Theme.AppCompat.NoActionBar" />
 </resources>

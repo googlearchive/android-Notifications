@@ -14,27 +14,24 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainFrameLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.android.wearable.wear.wearnotifications.StandaloneMainActivity">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="@dimen/recycler_row_padding"
+    android:paddingBottom="@dimen/recycler_row_padding"
+    android:orientation="horizontal">
 
-    <android.support.wearable.view.WearableRecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:src="@drawable/ic_n_white_48dp"/>
 
     <TextView
-        android:id="@+id/header_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:paddingTop="@dimen/activity_main_text_header_spacing"
-        android:paddingBottom="@dimen/activity_main_text_header_spacing"
-        android:background="@color/grey"
-        android:text="@string/floating_text"/>
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/recycler_row_text_size"
+        android:id="@+id/textView"/>
+</LinearLayout>

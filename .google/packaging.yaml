@@ -6,7 +6,7 @@
 ---
 status:       PUBLISHED
 technologies: [Android]
-categories:   [Notifications, Wear]
+categories:   [Notification, Wearable]
 languages:    [Java]
 solutions:    [Mobile]
 github:       android-Wear Notifications
