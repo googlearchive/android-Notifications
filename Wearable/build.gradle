@@ -18,12 +18,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
 
-    provided "com.google.android.wearable:wearable:1.0.0"
 
     compile 'com.google.android.gms:play-services-wearable:10.0.1'
     compile 'com.android.support:support-v13:25.0.1'
 
-    compile 'com.google.android.support:wearable:2.0.0-alpha3'
+    provided 'com.google.android.wearable:wearable:2.0.0'
+
+    compile 'com.google.android.support:wearable:2.0.0'
 
 }
 

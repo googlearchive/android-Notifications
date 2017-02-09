@@ -1,5 +1,5 @@
 
-Android Wear Notifications Sample
+Android WearNotifications Sample
 ===================================
 
 Sample demonstrates best practices for using NotificationStyle Notifications (Inbox,
@@ -68,7 +68,7 @@ Support
 - Stack Overflow: http://stackoverflow.com/questions/tagged/android
 
 If you've found an error in this sample, please file an issue:
-https://github.com/googlesamples/android-Wear Notifications
+https://github.com/googlesamples/android-WearNotifications
 
 Patches are encouraged, and may be submitted by forking this project and
 submitting a pull request through GitHub. Please see CONTRIBUTING.md for more details.

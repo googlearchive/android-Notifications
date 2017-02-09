@@ -9,7 +9,7 @@ technologies: [Android]
 categories:   [Notification, Wearable]
 languages:    [Java]
 solutions:    [Mobile]
-github:       android-Wear Notifications
+github:       android-WearNotifications
 level:        INTERMEDIATE
 icon:         screenshots/icon-web.png
 apiRefs:

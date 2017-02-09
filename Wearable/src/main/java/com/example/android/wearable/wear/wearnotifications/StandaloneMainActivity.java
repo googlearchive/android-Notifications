@@ -92,6 +92,9 @@ public class StandaloneMainActivity extends WearableActivity {
         mMainFrameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
         mWearableRecyclerView = (WearableRecyclerView) findViewById(R.id.recycler_view);
 
+        // Aligns the first and last items on the list vertically centered on the screen.
+        mWearableRecyclerView.setCenterEdgeItems(true);
+
         // Customizes scrolling (zoom) and offsets of WearableRecyclerView's items
         ScalingOffsettingHelper scalingOffsettingHelper = new ScalingOffsettingHelper();
         mWearableRecyclerView.setOffsettingHelper(scalingOffsettingHelper);

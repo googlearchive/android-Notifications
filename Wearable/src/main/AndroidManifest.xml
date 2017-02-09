@@ -29,6 +29,9 @@
                  android:supportsRtl="true"
                  android:theme="@style/AppThemeOverride">
 
+        <!-- Let's Play Store know this app is standalone. -->
+        <meta-data android:name="com.google.android.wearable.standalone" android:value="true"/>
+
         <!--
         Important Note: Usually, you will want to disable bridging if you have a local/native
         Android Wear app creating Notifications. In our case, we don't, as our sample shows both
