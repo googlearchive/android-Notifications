@@ -571,10 +571,9 @@ public class StandaloneMainActivity extends WearableActivity {
         // Main steps for building a MESSAGING_STYLE notification:
         //      0. Get your data
         //      1. Build the MESSAGING_STYLE
-        //      2. Add support for Wear 1.+
-        //      3. Set up main Intent for notification
-        //      4. Set up RemoteInput (users can input directly from notification)
-        //      5. Build and issue the notification
+        //      2. Set up main Intent for notification
+        //      3. Set up RemoteInput (users can input directly from notification)
+        //      4. Build and issue the notification
 
         // 0. Get your data (everything unique per Notification)
         MockDatabase.MessagingStyleCommsAppData messagingStyleCommsAppData =
@@ -596,29 +595,7 @@ public class StandaloneMainActivity extends WearableActivity {
             messagingStyle.addMessage(message);
         }
 
-
-        // 2. Add support for Wear 1.+
-
-        // Since Wear 1.0 doesn't support the MESSAGING_STYLE, we use the BIG_TEXT_STYLE, so all the
-        // text is visible.
-
-        // This is basically a toString() of all the Messages above.
-        String fullMessageForWearVersion1 = messagingStyleCommsAppData.getFullConversation();
-
-        Notification chatHistoryForWearV1 = new NotificationCompat.Builder(getApplicationContext())
-                .setStyle(new BigTextStyle().bigText(fullMessageForWearVersion1))
-                .setContentTitle(contentTitle)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText(fullMessageForWearVersion1)
-                .build();
-
-        // Adds page with all text to support Wear 1.+.
-        NotificationCompat.WearableExtender wearableExtenderForWearVersion1 =
-                new NotificationCompat.WearableExtender()
-                        .setHintContentIntentLaunchesActivity(true)
-                        .addPage(chatHistoryForWearV1);
-
-        // 3. Set up main Intent for notification
+        // 2. Set up main Intent for notification
         Intent notifyIntent = new Intent(this, MessagingMainActivity.class);
 
         PendingIntent mainPendingIntent =
@@ -630,7 +607,7 @@ public class StandaloneMainActivity extends WearableActivity {
                 );
 
 
-        // 4. Set up a RemoteInput Action, so users can input (keyboard, drawing, voice) directly
+        // 3. Set up a RemoteInput Action, so users can input (keyboard, drawing, voice) directly
         // from the notification without entering the app.
 
         // Create the RemoteInput specifying this key.
@@ -664,7 +641,7 @@ public class StandaloneMainActivity extends WearableActivity {
                         .build();
 
 
-        // 5. Build and issue the notification
+        // 4. Build and issue the notification
 
         // Because we want this to be a new notification (not updating current notification), we
         // create a new Builder. Later, we update this same notification, so we need to save this
@@ -677,11 +654,9 @@ public class StandaloneMainActivity extends WearableActivity {
 
         // Builds and issues notification
         notificationCompatBuilder
-                // MESSAGING_STYLE sets title and content for API 24+ (Wear 2.0) devices
+                // MESSAGING_STYLE sets title and content for Wear 1.+ and Wear 2.0 devices.
                 .setStyle(messagingStyle)
-                // Title for API <24 (Wear 1.+) devices
                 .setContentTitle(contentTitle)
-                // Content for API <24 (Wear 1.+) devices
                 .setContentText(messagingStyleCommsAppData.getContentText())
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(
@@ -699,10 +674,7 @@ public class StandaloneMainActivity extends WearableActivity {
                 .setPriority(Notification.PRIORITY_HIGH)
 
                 // Hides content on the lock-screen
-                .setVisibility(Notification.VISIBILITY_PRIVATE)
-
-                // Adds multiple pages for easy consumption on a wear device.
-                .extend(wearableExtenderForWearVersion1);
+                .setVisibility(Notification.VISIBILITY_PRIVATE);
 
         // If the phone is in "Do not disturb mode, the user will still be notified if
         // the sender(s) is starred as a favorite.

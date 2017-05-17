@@ -626,10 +626,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Main steps for building a MESSAGING_STYLE notification:
         //      0. Get your data
         //      1. Build the MESSAGING_STYLE
-        //      2. Add support for Wear 1.+
-        //      3. Set up main Intent for notification
-        //      4. Set up RemoteInput (users can input directly from notification)
-        //      5. Build and issue the notification
+        //      2. Set up main Intent for notification
+        //      3. Set up RemoteInput (users can input directly from notification)
+        //      4. Build and issue the notification
 
         // 0. Get your data (everything unique per Notification)
         MockDatabase.MessagingStyleCommsAppData messagingStyleCommsAppData =
@@ -640,9 +639,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         MessagingStyle messagingStyle =
                 new NotificationCompat.MessagingStyle(messagingStyleCommsAppData.getReplayName())
-                        // You could set a different title to appear when the messaging style
-                        // is supported on device (24+) if you wish. In our case, we use the same
-                        // title.
+                        // This could be the user-created name of the group or, if it doesn't have
+                        // a specific name, a list of the participants in the conversation. Do not
+                        // set a conversation title for one-on-one chats, since platforms use the
+                        // existence of this field as a hint that the conversation is a group.
+                        //
+                        // In our case, we use the same title.
                         .setConversationTitle(contentTitle);
 
         // Adds all Messages
@@ -651,30 +653,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             messagingStyle.addMessage(message);
         }
 
-
-        // 2. Add support for Wear 1.+
-
-        // Since Wear 1.0 doesn't support the MESSAGING_STYLE, we use the BIG_TEXT_STYLE, so all the
-        // text is visible.
-
-        // This is basically a toString() of all the Messages above.
-        String fullMessageForWearVersion1 = messagingStyleCommsAppData.getFullConversation();
-
-        Notification chatHistoryForWearV1 = new NotificationCompat.Builder(getApplicationContext())
-                .setStyle(new BigTextStyle().bigText(fullMessageForWearVersion1))
-                .setContentTitle(contentTitle)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText(fullMessageForWearVersion1)
-                .build();
-
-        // Adds page with all text to support Wear 1.+.
-        NotificationCompat.WearableExtender wearableExtenderForWearVersion1 =
-                new NotificationCompat.WearableExtender()
-                        .addPage(chatHistoryForWearV1);
-
-
-
-        // 3. Set up main Intent for notification
+        // 2. Set up main Intent for notification
         Intent notifyIntent = new Intent(this, MessagingMainActivity.class);
 
         // When creating your Intent, you need to take into account the back state, i.e., what
@@ -713,7 +692,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 );
 
 
-        // 4. Set up RemoteInput, so users can input (keyboard and voice) from notification
+        // 3. Set up RemoteInput, so users can input (keyboard and voice) from notification
 
         // Note: For API <24 (M and below) we need to use an Activity, so the lock-screen present
         // the auth challenge. For API 24+ (N and above), we use a Service (could be a
@@ -751,7 +730,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .build();
 
 
-        // 5. Build and issue the notification
+        // 4. Build and issue the notification
 
         // Because we want this to be a new notification (not updating current notification), we
         // create a new Builder. Later, we update this same notification, so we need to save this
@@ -764,11 +743,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Builds and issues notification
         notificationCompatBuilder
-                // MESSAGING_STYLE sets title and content for API 24+ (N and above) devices
+                // MESSAGING_STYLE sets title and content for API 16 and above devices
                 .setStyle(messagingStyle)
-                // Title for API <24 (M and below) devices
+                // Title for API < 16 devices
                 .setContentTitle(contentTitle)
-                // Content for API <24 (M and below) devices
+                // Content for API < 16 devices
                 .setContentText(messagingStyleCommsAppData.getContentText())
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(
@@ -793,10 +772,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setPriority(Notification.PRIORITY_HIGH)
 
                 // Hides content on the lock-screen
-                .setVisibility(Notification.VISIBILITY_PRIVATE)
-
-                // Adds multiple pages for easy consumption on a wear device.
-                .extend(wearableExtenderForWearVersion1);
+                .setVisibility(Notification.VISIBILITY_PRIVATE);
 
         // If the phone is in "Do not disturb mode, the user will still be notified if
         // the sender(s) is starred as a favorite.
