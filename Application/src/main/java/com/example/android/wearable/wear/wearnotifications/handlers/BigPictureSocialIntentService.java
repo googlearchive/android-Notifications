@@ -22,17 +22,17 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigPictureStyle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.android.wearable.wear.wearnotifications.GlobalNotificationBuilder;
 import com.example.android.wearable.wear.wearnotifications.MainActivity;
 import com.example.android.wearable.wear.wearnotifications.R;
-import com.example.android.wearable.wear.wearnotifications.mock.MockDatabase;
+import com.example.android.wearable.wear.common.mock.MockDatabase;
 
 /**
  * Asynchronously handles updating social app posts (and active Notification) with comments from

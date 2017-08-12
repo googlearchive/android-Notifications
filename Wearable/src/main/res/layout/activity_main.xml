@@ -22,12 +22,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.wearable.wear.wearnotifications.StandaloneMainActivity">
 
-    <android.support.wearable.view.WearableRecyclerView
+    <android.support.wear.widget.WearableRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
+    <!-- Stacks the text field above the WearableRecyclerView at the top of the screen. -->
     <TextView
         android:id="@+id/header_text_view"
         android:layout_width="match_parent"

@@ -15,36 +15,37 @@
  */
 package com.example.android.wearable.wear.wearnotifications;
 
-import android.support.wearable.view.DefaultOffsettingHelper;
-import android.support.wearable.view.WearableRecyclerView;
+import android.support.v7.widget.RecyclerView;
+import android.support.wear.widget.WearableLinearLayoutManager;
+import android.support.wear.widget.WearableRecyclerView;
 import android.view.View;
 
 /**
- * Customizes all items (children) in a {@link WearableRecyclerView} to align to left side of
- * surface/watch and shrinks each item (child) as you scroll away from it.
+ * Shrinks items (children) farther away from the center in a {@link WearableRecyclerView}. The UX
+ * makes scrolling more readable.
  */
-public class ScalingOffsettingHelper extends DefaultOffsettingHelper {
+public class ScalingScrollLayoutCallback extends WearableLinearLayoutManager.LayoutCallback {
 
-    // Max we scale the child View
+    // Max we scale the child View.
     private static final float MAX_CHILD_SCALE = 0.65f;
 
     private float mProgressToCenter;
 
-    public ScalingOffsettingHelper() {}
-
-    // Shrinks icons/text and you scroll away
+    /*
+     * Scales the item's icons and text the farther away they are from center allowing the main
+     * item to be more readable to the user on small devices like Wear.
+     */
     @Override
-    public void updateChild(View child, WearableRecyclerView parent) {
-        super.updateChild(child, parent);
+    public void onLayoutFinished(View child, RecyclerView parent) {
 
-        // Figure out % progress from top to bottom
+        // Figure out % progress from top to bottom.
         float centerOffset = ((float) child.getHeight() / 2.0f) /  (float) parent.getHeight();
         float yRelativeToCenterOffset = (child.getY() / parent.getHeight()) + centerOffset;
 
-        // Normalize for center
+        // Normalizes for center.
         mProgressToCenter = Math.abs(0.5f - yRelativeToCenterOffset);
 
-        // Adjust to the maximum scale
+        // Adjusts to the maximum scale.
         mProgressToCenter = Math.min(mProgressToCenter, MAX_CHILD_SCALE);
 
         child.setScaleX(1 - mProgressToCenter);

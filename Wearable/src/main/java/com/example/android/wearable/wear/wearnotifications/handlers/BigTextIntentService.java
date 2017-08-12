@@ -21,15 +21,16 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigTextStyle;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.android.wearable.wear.wearnotifications.GlobalNotificationBuilder;
 import com.example.android.wearable.wear.wearnotifications.R;
 import com.example.android.wearable.wear.wearnotifications.StandaloneMainActivity;
-import com.example.android.wearable.wear.wearnotifications.mock.MockDatabase;
+import com.example.android.wearable.wear.common.mock.MockDatabase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -123,25 +124,31 @@ public class BigTextIntentService extends IntentService {
     private NotificationCompat.Builder recreateBuilderWithBigTextStyle() {
 
         // Main steps for building a BIG_TEXT_STYLE notification (for more detailed comments on
-        // building this notification, check StandaloneMainActivity.java)::
+        // building this notification, check StandaloneMainActivity.java):
         //      0. Get your data
-        //      1. Build the BIG_TEXT_STYLE
-        //      2. Set up main Intent for notification
-        //      3. Create additional Actions for the Notification
-        //      4. Build and issue the notification
+        //      1. Retrieve Notification Channel for O and beyond devices (26+)
+        //      2. Build the BIG_TEXT_STYLE
+        //      3. Set up main Intent for notification
+        //      4. Create additional Actions for the Notification
+        //      5. Build and issue the notification
 
-        // 0. Get your data (everything unique per Notification)
+        // 0. Get your data (everything unique per Notification).
         MockDatabase.BigTextStyleReminderAppData bigTextStyleReminderAppData =
                 MockDatabase.getBigTextStyleData();
 
-        // 1. Build the BIG_TEXT_STYLE
+        // 1. Retrieve Notification Channel for O and beyond devices (26+). We don't need to create
+        //    the NotificationChannel, since it was created the first time this Notification was
+        //    created.
+        String notificationChannelId = bigTextStyleReminderAppData.getChannelId();
+
+        // 2. Build the BIG_TEXT_STYLE.
         BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle()
                 .bigText(bigTextStyleReminderAppData.getBigText())
                 .setBigContentTitle(bigTextStyleReminderAppData.getBigContentTitle())
                 .setSummaryText(bigTextStyleReminderAppData.getSummaryText());
 
 
-        // 2. Set up main Intent for notification
+        // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigTextMainActivity.class);
 
         PendingIntent mainPendingIntent =
@@ -153,8 +160,9 @@ public class BigTextIntentService extends IntentService {
                 );
 
 
-        // 3. Create additional Actions (Intents) for the Notification
-        // Snooze Action
+        // 4. Create additional Actions (Intents) for the Notification.
+
+        // Snooze Action.
         Intent snoozeIntent = new Intent(this, BigTextIntentService.class);
         snoozeIntent.setAction(BigTextIntentService.ACTION_SNOOZE);
 
@@ -179,9 +187,12 @@ public class BigTextIntentService extends IntentService {
                         .build();
 
 
-        // 4. Build and issue the notification
+        // 5. Build and issue the notification.
+
+        // Notification Channel Id is ignored for Android pre O (26).
         NotificationCompat.Builder notificationCompatBuilder =
-                new NotificationCompat.Builder(getApplicationContext());
+                new NotificationCompat.Builder(
+                        getApplicationContext(), notificationChannelId);
 
         GlobalNotificationBuilder.setNotificationCompatBuilderInstance(notificationCompatBuilder);
 
@@ -193,10 +204,10 @@ public class BigTextIntentService extends IntentService {
                 .setLargeIcon(BitmapFactory.decodeResource(
                         getResources(),
                         R.drawable.ic_alarm_white_48dp))
-                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setCategory(Notification.CATEGORY_REMINDER)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setPriority(bigTextStyleReminderAppData.getPriority())
+                .setVisibility(bigTextStyleReminderAppData.getChannelLockscreenVisibility())
                 .addAction(snoozeAction)
                 .addAction(dismissAction);
 

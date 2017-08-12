@@ -21,16 +21,17 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigPictureStyle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.android.wearable.wear.wearnotifications.GlobalNotificationBuilder;
 import com.example.android.wearable.wear.wearnotifications.R;
 import com.example.android.wearable.wear.wearnotifications.StandaloneMainActivity;
-import com.example.android.wearable.wear.wearnotifications.mock.MockDatabase;
+import com.example.android.wearable.wear.common.mock.MockDatabase;
 
 /**
  * Asynchronously handles updating social app posts (and active Notification) with comments from
@@ -135,16 +136,23 @@ public class BigPictureSocialIntentService extends IntentService {
         // Main steps for building a BIG_PICTURE_STYLE notification (for more detailed comments on
         // building this notification, check StandaloneMainActivity.java):
         //      0. Get your data
-        //      1. Build the BIG_PICTURE_STYLE
-        //      2. Set up main Intent for notification
-        //      3. Set up RemoteInput, so users can input (keyboard and voice) from notification
-        //      4. Build and issue the notification
+        //      1. Retrieve Notification Channel for O and beyond devices (26+)
+        //      2. Build the BIG_PICTURE_STYLE
+        //      3. Set up main Intent for notification
+        //      4. Set up RemoteInput, so users can input (keyboard and voice) from notification
+        //      5. Build and issue the notification
 
         // 0. Get your data (everything unique per Notification)
         MockDatabase.BigPictureStyleSocialAppData bigPictureStyleSocialAppData =
                 MockDatabase.getBigPictureStyleData();
 
-        // 1. Build the BIG_PICTURE_STYLE
+        // 1. Retrieve Notification Channel for O and beyond devices (26+). We don't need to create
+        //    the NotificationChannel, since it was created the first time this Notification was
+        //    created.
+        String notificationChannelId = bigPictureStyleSocialAppData.getChannelId();
+
+
+        // 2. Build the BIG_PICTURE_STYLE.
         BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle()
                 .bigPicture(
                         BitmapFactory.decodeResource(
@@ -153,7 +161,7 @@ public class BigPictureSocialIntentService extends IntentService {
                 .setBigContentTitle(bigPictureStyleSocialAppData.getBigContentTitle())
                 .setSummaryText(bigPictureStyleSocialAppData.getSummaryText());
 
-        // 2. Set up main Intent for notification
+        // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
 
         PendingIntent mainPendingIntent =
@@ -164,7 +172,7 @@ public class BigPictureSocialIntentService extends IntentService {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
-        // 3. Set up a RemoteInput Action, so users can input (keyboard, drawing, voice) directly
+        // 4. Set up a RemoteInput Action, so users can input (keyboard, drawing, voice) directly
         // from the notification without entering the app.
         String replyLabel = getString(R.string.reply_label);
         RemoteInput remoteInput =
@@ -190,17 +198,19 @@ public class BigPictureSocialIntentService extends IntentService {
                         replyLabel,
                         replyActionPendingIntent)
                         .addRemoteInput(remoteInput)
-                        // Add WearableExtender to enable inline actions
+                        // Add WearableExtender to enable inline actions.
                         .extend(inlineActionForWear2)
                         .build();
 
-        // 4. Build and issue the notification
+        // 5. Build and issue the notification.
+
+        // Notification Channel Id is ignored for Android pre O (26).
         NotificationCompat.Builder notificationCompatBuilder =
-                new NotificationCompat.Builder(getApplicationContext());
+                new NotificationCompat.Builder(
+                        getApplicationContext(), notificationChannelId);
 
         GlobalNotificationBuilder.setNotificationCompatBuilderInstance(notificationCompatBuilder);
 
-        // Build notification
         notificationCompatBuilder
                 .setStyle(bigPictureStyle)
                 .setContentTitle(bigPictureStyleSocialAppData.getContentTitle())
@@ -210,12 +220,12 @@ public class BigPictureSocialIntentService extends IntentService {
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
-                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setSubText(Integer.toString(1))
                 .addAction(replyAction)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setVisibility(Notification.VISIBILITY_PRIVATE)
+                .setPriority(bigPictureStyleSocialAppData.getPriority())
+                .setVisibility(bigPictureStyleSocialAppData.getChannelLockscreenVisibility())
                 .extend(new NotificationCompat.WearableExtender()
                         .setHintContentIntentLaunchesActivity(true));
 

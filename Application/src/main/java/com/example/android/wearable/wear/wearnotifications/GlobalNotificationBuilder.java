@@ -15,7 +15,7 @@ limitations under the License.
  */
 package com.example.android.wearable.wear.wearnotifications;
 
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 
 /**
  * We use a Singleton for a global copy of the NotificationCompat.Builder to update active

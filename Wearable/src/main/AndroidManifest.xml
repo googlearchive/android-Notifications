@@ -27,7 +27,7 @@
                  android:icon="@mipmap/ic_launcher"
                  android:label="@string/app_name"
                  android:supportsRtl="true"
-                 android:theme="@style/AppThemeOverride">
+                 android:theme="@android:style/Theme.Material">
 
         <!-- Let's Play Store know this app is standalone. -->
         <meta-data android:name="com.google.android.wearable.standalone" android:value="true"/>

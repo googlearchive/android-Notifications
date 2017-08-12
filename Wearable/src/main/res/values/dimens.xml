@@ -18,7 +18,7 @@
     <dimen name="activity_main_text_header_spacing">5dp</dimen>
 
     <dimen name="recycler_row_padding">5dp</dimen>
-    <dimen name="recycler_row_text_size">14sp</dimen>
+    <dimen name="recycler_row_text_size">10sp</dimen>
 
     <dimen name="activity_notification_details_top_padding">5dp</dimen>
     <dimen name="activity_notification_details_bottom_padding">5dp</dimen>
