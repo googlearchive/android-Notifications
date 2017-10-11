@@ -22,8 +22,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0'
     compile 'com.android.support:cardview-v7:26.0.0'
     compile 'com.android.support:design:26.0.0'
-    compile 'com.google.android.gms:play-services-wearable:10.2.4'
-    compile 'com.android.support:support-v13:25.3.1'
+    compile 'com.google.android.gms:play-services-wearable:11.4.0'
+    compile 'com.android.support:support-v13:26.1.0'
     compile project(':Shared')
     wearApp project(':Wearable')
 }
@@ -39,7 +39,7 @@ List<String> dirs = [
 android {
         compileSdkVersion 26
 
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         minSdkVersion 18

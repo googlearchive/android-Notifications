@@ -284,6 +284,7 @@ public class StandaloneMainActivity extends WearableActivity {
                 .setLargeIcon(BitmapFactory.decodeResource(
                         getResources(),
                         R.drawable.ic_alarm_white_48dp))
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -453,6 +454,7 @@ public class StandaloneMainActivity extends WearableActivity {
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -554,6 +556,7 @@ public class StandaloneMainActivity extends WearableActivity {
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -710,6 +713,7 @@ public class StandaloneMainActivity extends WearableActivity {
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 

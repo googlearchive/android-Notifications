@@ -304,6 +304,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         getResources(),
                         R.drawable.ic_alarm_white_48dp))
                 .setContentIntent(notifyPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -473,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -610,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
@@ -789,6 +792,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         getResources(),
                         R.drawable.ic_person_black_48dp))
                 .setContentIntent(mainPendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 // Set primary color (important for Wear 2.0 Notifications).
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
