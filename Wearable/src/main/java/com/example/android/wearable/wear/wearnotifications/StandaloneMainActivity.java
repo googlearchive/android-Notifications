@@ -15,6 +15,7 @@
  */
 package com.example.android.wearable.wear.wearnotifications;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -30,9 +31,9 @@ import android.support.v4.app.NotificationCompat.MessagingStyle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
+import android.support.wear.ambient.AmbientMode;
 import android.support.wear.widget.WearableLinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
-import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -53,7 +54,8 @@ import com.example.android.wearable.wear.wearnotifications.handlers.MessagingMai
  * standalone Android Wear apps. All {@link NotificationCompat} examples use
  * {@link NotificationCompat.Style}.
  */
-public class StandaloneMainActivity extends WearableActivity {
+public class StandaloneMainActivity extends Activity implements
+        AmbientMode.AmbientCallbackProvider {
 
     private static final String TAG = "StandaloneMainActivity";
 
@@ -83,18 +85,26 @@ public class StandaloneMainActivity extends WearableActivity {
     private WearableRecyclerView mWearableRecyclerView;
     private CustomRecyclerAdapter mCustomRecyclerAdapter;
 
+    /**
+     * Ambient mode controller attached to this display. Used by Activity to see if it is in
+     * ambient mode.
+     */
+    private AmbientMode.AmbientController mAmbientController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
 
         setContentView(R.layout.activity_main);
-        setAmbientEnabled();
+
+        // Enables Ambient mode.
+        mAmbientController = AmbientMode.attachAmbientSupport(this);
 
         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
-        mMainFrameLayout = (FrameLayout) findViewById(R.id.mainFrameLayout);
-        mWearableRecyclerView = (WearableRecyclerView) findViewById(R.id.recycler_view);
+        mMainFrameLayout = findViewById(R.id.mainFrameLayout);
+        mWearableRecyclerView = findViewById(R.id.recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
@@ -762,4 +772,30 @@ public class StandaloneMainActivity extends WearableActivity {
         intent.putExtra("app_uid", getApplicationInfo().uid);
         startActivity(intent);
     }
+
+    @Override
+    public AmbientMode.AmbientCallback getAmbientCallback() {
+        return new MyAmbientCallback();
+    }
+
+    private class MyAmbientCallback extends AmbientMode.AmbientCallback {
+        /** Prepares the UI for ambient mode. */
+        @Override
+        public void onEnterAmbient(Bundle ambientDetails) {
+            super.onEnterAmbient(ambientDetails);
+
+            Log.d(TAG, "onEnterAmbient() " + ambientDetails);
+            // In our case, the assets are already in black and white, so we don't update UI.
+        }
+
+        /** Restores the UI to active (non-ambient) mode. */
+        @Override
+        public void onExitAmbient() {
+            super.onExitAmbient();
+
+            Log.d(TAG, "onExitAmbient()");
+            // In our case, the assets are already in black and white, so we don't update UI.
+        }
+    }
+
 }
