@@ -51,7 +51,7 @@ import com.example.android.wearable.wear.wearnotifications.handlers.MessagingMai
 
 /**
  * Demonstrates best practice for {@link NotificationCompat} Notifications created by local
- * standalone Android Wear apps. All {@link NotificationCompat} examples use
+ * standalone Wear apps. All {@link NotificationCompat} examples use
  * {@link NotificationCompat.Style}.
  */
 public class StandaloneMainActivity extends Activity implements
@@ -349,7 +349,7 @@ public class StandaloneMainActivity extends Activity implements
      *
      * This example Notification is a social post. It allows updating the notification with
      * comments/responses via RemoteInput and the BigPictureSocialIntentService on 24+ (N+) and
-     * Android Wear devices.
+     * Wear devices.
      *
      * IMPORTANT NOTE:
      * Notification Styles behave slightly different on Wear 2.0 when they are launched by a

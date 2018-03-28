@@ -52,8 +52,7 @@ import com.example.android.wearable.wear.wearnotifications.handlers.MessagingMai
 
 /**
  * The Activity demonstrates several popular Notification.Style examples along with their best
- * practices (include proper Android Wear support when you don't have a dedicated Android Wear
- * app).
+ * practices (include proper Wear support when you don't have a dedicated Wear app).
  */
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -309,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
                 // SIDE NOTE: Auto-bundling is enabled for 4 or more notifications on API 24+ (N+)
-                // devices and all Android Wear devices. If you have more than one notification and
+                // devices and all Wear devices. If you have more than one notification and
                 // you prefer a different summary notification, set a group key and create a
                 // summary notification via
                 // .setGroupSummary(true)
@@ -342,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      *
      * This example Notification is a social post. It allows updating the notification with
      * comments/responses via RemoteInput and the BigPictureSocialIntentService on 24+ (N+) and
-     * Android Wear devices.
+     * Wear devices.
      */
     private void generateBigPictureStyleNotification() {
 
@@ -479,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
                 // SIDE NOTE: Auto-bundling is enabled for 4 or more notifications on API 24+ (N+)
-                // devices and all Android Wear devices. If you have more than one notification and
+                // devices and all Wear devices. If you have more than one notification and
                 // you prefer a different summary notification, set a group key and create a
                 // summary notification via
                 // .setGroupSummary(true)
@@ -617,7 +616,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
                 // SIDE NOTE: Auto-bundling is enabled for 4 or more notifications on API 24+ (N+)
-                // devices and all Android Wear devices. If you have more than one notification and
+                // devices and all Wear devices. If you have more than one notification and
                 // you prefer a different summary notification, set a group key and create a
                 // summary notification via
                 // .setGroupSummary(true)
@@ -797,7 +796,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
 
                 // SIDE NOTE: Auto-bundling is enabled for 4 or more notifications on API 24+ (N+)
-                // devices and all Android Wear devices. If you have more than one notification and
+                // devices and all Wear devices. If you have more than one notification and
                 // you prefer a different summary notification, set a group key and create a
                 // summary notification via
                 // .setGroupSummary(true)

@@ -3,7 +3,7 @@ Android WearNotifications Sample
 ===================================
 
 Sample demonstrates best practices for using NotificationStyle Notifications (Inbox,
-            BigPicture, BigText, and Messaging) for both Mobile apps and native/local Android Wear
+            BigPicture, BigText, and Messaging) for both Mobile apps and native/local Wear
             apps. It also covers Notifications on Wear 1.+ and Wear 2.0.
 
 Introduction
@@ -18,11 +18,11 @@ scenario).
 This sample demonstrate best practices for using [NotificationStyle][1]
 [Notifications][2] for two scenarios:
 
-1. Launching Notifications from a Mobile app WITHOUT a native Android Wear app.
+1. Launching Notifications from a Mobile app WITHOUT a native Wear app.
 Notifications appear both on mobile and Wear (bridged to appear like a local/native
 Wear app).
 
-2. Launching Notifications from a Native/Local Android Wear app. Notifications only
+2. Launching Notifications from a Native/Local Wear app. Notifications only
 appear on Wear device.
 
 The Mobile and Wear apps demonstrate [BigTextStyle][3], [BigPictureStyle][4],
@@ -46,8 +46,8 @@ using some of the new features of Wear 2.0 (inline actions).
 Pre-requisites
 --------------
 
-- Android SDK 26
-- Android Build Tools v27.0.2
+- Android SDK 27
+- Android Build Tools v27.0.3
 - Android Support Repository
 
 Screenshots

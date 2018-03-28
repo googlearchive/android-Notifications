@@ -34,7 +34,7 @@
 
         <!--
         Important Note: Usually, you will want to disable bridging if you have a local/native
-        Android Wear app creating Notifications. In our case, we don't, as our sample shows both
+        Wear app creating Notifications. In our case, we don't, as our sample shows both
         Notifications launched from a Phone app (that needed to be bridged) and a Wear app.
 
         To disable, create a meta-data tag here:
