@@ -46,7 +46,7 @@ using some of the new features of Wear 2.0 (inline actions).
 Pre-requisites
 --------------
 
-- Android SDK 27
+- Android SDK 28
 - Android Build Tools v27.0.3
 - Android Support Repository
 

@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.wearable.wear.wearnotifications.StandaloneMainActivity">
 
-    <android.support.wear.widget.WearableRecyclerView
+    <androidx.wear.widget.WearableRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

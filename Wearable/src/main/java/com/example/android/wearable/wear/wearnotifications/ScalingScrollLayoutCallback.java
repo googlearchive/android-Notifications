@@ -15,10 +15,11 @@
  */
 package com.example.android.wearable.wear.wearnotifications;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.wear.widget.WearableLinearLayoutManager;
-import android.support.wear.widget.WearableRecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 /**
  * Shrinks items (children) farther away from the center in a {@link WearableRecyclerView}. The UX

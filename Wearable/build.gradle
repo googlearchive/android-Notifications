@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.2.0-beta01'
     }
 }
 
@@ -18,17 +18,18 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:wear:27.1.0'
-    compile 'com.android.support:design:27.1.0'
-    compile 'com.google.android.gms:play-services-wearable:11.8.0'
-    compile 'com.android.support:support-v13:27.1.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
+    implementation 'androidx.wear:wear:1.0.0-alpha3'
+    implementation 'com.google.android.material:material:1.0.0-alpha3'
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0-alpha3'
+    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
 
-    provided 'com.google.android.wearable:wearable:2.3.0'
 
-    compile 'com.google.android.support:wearable:2.3.0'
+    compileOnly 'com.google.android.wearable:wearable:2.3.0'
 
-    compile project(':Shared')
+    implementation 'com.google.android.support:wearable:2.3.0'
+
+    implementation project(':Shared')
 }
 
 // The sample build uses multiple directories to
@@ -41,7 +42,7 @@ List<String> dirs = [
 
 android {
 
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     buildToolsVersion "27.0.3"
 
@@ -51,7 +52,7 @@ android {
 
         minSdkVersion 23
 
-        targetSdkVersion 26
+        targetSdkVersion 28
 
          multiDexEnabled true
 

@@ -43,5 +43,9 @@ public class MessagingMainActivity extends Activity {
         notificationManager.cancel(StandaloneMainActivity.NOTIFICATION_ID);
 
         // TODO: Handle and display message/conversation from your database
+
+        // NOTE: You can retrieve the EXTRA_REMOTE_INPUT_DRAFT sent by the system when a user
+        // inadvertently closes a messaging notification to pre-populate the reply text field so
+        // the user can finish their reply.
     }
 }

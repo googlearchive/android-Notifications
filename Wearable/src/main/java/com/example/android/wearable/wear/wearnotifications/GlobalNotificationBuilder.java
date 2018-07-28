@@ -15,7 +15,7 @@
  */
 package com.example.android.wearable.wear.wearnotifications;
 
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 /**
  * We use a Singleton for a global copy of the NotificationCompat.Builder to update active
@@ -50,11 +50,11 @@ public final class GlobalNotificationBuilder {
      */
     private GlobalNotificationBuilder() { }
 
-    public static void setNotificationCompatBuilderInstance (NotificationCompat.Builder builder) {
+    public static void setNotificationCompatBuilderInstance(NotificationCompat.Builder builder) {
         sGlobalNotificationCompatBuilder = builder;
     }
 
-    public static NotificationCompat.Builder getNotificationCompatBuilderInstance(){
+    public static NotificationCompat.Builder getNotificationCompatBuilderInstance() {
         return sGlobalNotificationCompatBuilder;
     }
 }

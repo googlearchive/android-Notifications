@@ -22,21 +22,25 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.BigPictureStyle;
-import android.support.v4.app.NotificationCompat.BigTextStyle;
-import android.support.v4.app.NotificationCompat.InboxStyle;
-import android.support.v4.app.NotificationCompat.MessagingStyle;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.ContextCompat;
-import android.support.wear.ambient.AmbientMode;
-import android.support.wear.widget.WearableLinearLayoutManager;
-import android.support.wear.widget.WearableRecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Action;
+import androidx.core.app.NotificationCompat.BigPictureStyle;
+import androidx.core.app.NotificationCompat.BigTextStyle;
+import androidx.core.app.NotificationCompat.InboxStyle;
+import androidx.core.app.NotificationCompat.MessagingStyle;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.Person;
+import androidx.core.app.RemoteInput;
+import androidx.core.content.ContextCompat;
+import androidx.wear.ambient.AmbientMode;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 import com.example.android.wearable.wear.common.mock.MockDatabase;
 import com.example.android.wearable.wear.common.util.NotificationUtil;
@@ -47,7 +51,6 @@ import com.example.android.wearable.wear.wearnotifications.handlers.BigTextMainA
 import com.example.android.wearable.wear.wearnotifications.handlers.InboxMainActivity;
 import com.example.android.wearable.wear.wearnotifications.handlers.MessagingIntentService;
 import com.example.android.wearable.wear.wearnotifications.handlers.MessagingMainActivity;
-
 
 /**
  * Demonstrates best practice for {@link NotificationCompat} Notifications created by local
@@ -632,7 +635,7 @@ public class StandaloneMainActivity extends Activity implements
 
         // 0. Get your data (everything unique per Notification).
         MockDatabase.MessagingStyleCommsAppData messagingStyleCommsAppData =
-                MockDatabase.getMessagingStyleData();
+                MockDatabase.getMessagingStyleData(getApplicationContext());
 
         // 1. Create/Retrieve Notification Channel for O and beyond devices (26+).
         String notificationChannelId =
@@ -642,10 +645,20 @@ public class StandaloneMainActivity extends Activity implements
         String contentTitle = messagingStyleCommsAppData.getContentTitle();
 
         MessagingStyle messagingStyle =
-                new NotificationCompat.MessagingStyle(messagingStyleCommsAppData.getReplayName())
-                        // You could set a different title to appear when the messaging style
-                        // is supported on device (24+) if you wish. In our case, we use the same
-                        // title.
+                new NotificationCompat.MessagingStyle(messagingStyleCommsAppData.getMe())
+                        /*
+                         * <p>This API's behavior was changed in SDK version
+                         * {@link Build.VERSION_CODES#P}. If your application's target version is
+                         * less than {@link Build.VERSION_CODES#P}, setting a conversation title to
+                         * a non-null value will make {@link #isGroupConversation()} return
+                         * {@code true} and passing {@code null} will make it return {@code false}.
+                         * This behavior can be overridden by calling
+                         * {@link #setGroupConversation(boolean)} regardless of SDK version.
+                         * In {@code P} and above, this method does not affect group conversation
+                         * settings.
+                         *
+                         * In our case, we use the same title.
+                         */
                         .setConversationTitle(contentTitle);
 
         // Adds all Messages.
@@ -653,6 +666,8 @@ public class StandaloneMainActivity extends Activity implements
         for (MessagingStyle.Message message : messagingStyleCommsAppData.getMessages()) {
             messagingStyle.addMessage(message);
         }
+
+        messagingStyle.setGroupConversation(messagingStyleCommsAppData.isGroupConversation());
 
         // 3. Set up main Intent for notification.
         Intent notifyIntent = new Intent(this, MessagingMainActivity.class);
@@ -673,6 +688,8 @@ public class StandaloneMainActivity extends Activity implements
         String replyLabel = getString(R.string.reply_label);
         RemoteInput remoteInput = new RemoteInput.Builder(MessagingIntentService.EXTRA_REPLY)
                 .setLabel(replyLabel)
+                // Use machine learning to create responses based on previous messages.
+                .setChoices(messagingStyleCommsAppData.getReplyChoicesBasedOnLastMessage())
                 .build();
 
         // Create PendingIntent for service that handles input.
@@ -693,9 +710,13 @@ public class StandaloneMainActivity extends Activity implements
                         replyLabel,
                         replyActionPendingIntent)
                         .addRemoteInput(remoteInput)
+                        // Informs system we aren't bringing up our own custom UI for a reply
+                        // action.
+                        .setShowsUserInterface(false)
                         // Allows system to generate replies by context of conversation.
                         .setAllowGeneratedReplies(true)
                         // Add WearableExtender to enable inline actions.
+                        .setSemanticAction(Action.SEMANTIC_ACTION_REPLY)
                         .extend(inlineActionForWear2)
                         .build();
 
@@ -742,10 +763,10 @@ public class StandaloneMainActivity extends Activity implements
                 // visibility is set in the NotificationChannel.
                 .setVisibility(messagingStyleCommsAppData.getChannelLockscreenVisibility());
 
-        // If the phone is in "Do not disturb mode, the user will still be notified if
-        // the sender(s) is starred as a favorite.
-        for (String name : messagingStyleCommsAppData.getParticipants()) {
-            notificationCompatBuilder.addPerson(name);
+        // If the phone is in "Do not disturb" mode, the user may still be notified if the
+        // sender(s) are in a group allowed through "Do not disturb" by the user.
+        for (Person person : messagingStyleCommsAppData.getParticipants()) {
+            notificationCompatBuilder.addPerson(person.getUri());
         }
 
         Notification notification = notificationCompatBuilder.build();

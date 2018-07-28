@@ -17,13 +17,14 @@ package com.example.android.wearable.wear.wearnotifications;
 
 import android.widget.ImageView;
 
-import android.support.v4.app.NotificationCompat;
 import android.support.wearable.view.WearableRecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * Provides a binding from {@link NotificationCompat.Style} data set to views displayed within the

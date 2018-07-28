@@ -15,7 +15,7 @@ limitations under the License.
  */
 package com.example.android.wearable.wear.wearnotifications;
 
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 /**
  * We use a Singleton for a global copy of the NotificationCompat.Builder to update active
@@ -48,13 +48,13 @@ public final class GlobalNotificationBuilder {
      * Empty constructor - We don't initialize builder because we rely on a null state to let us
      * know the Application's process was killed.
      */
-    private GlobalNotificationBuilder () { }
+    private GlobalNotificationBuilder() { }
 
     public static void setNotificationCompatBuilderInstance (NotificationCompat.Builder builder) {
         sGlobalNotificationCompatBuilder = builder;
     }
 
-    public static NotificationCompat.Builder getNotificationCompatBuilderInstance(){
+    public static NotificationCompat.Builder getNotificationCompatBuilderInstance() {
         return sGlobalNotificationCompatBuilder;
     }
 }
