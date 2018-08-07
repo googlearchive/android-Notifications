@@ -1,5 +1,5 @@
 
-Android WearNotifications Sample
+Android Notifications Sample
 ===================================
 
 Sample demonstrates best practices for using NotificationStyle Notifications (Inbox,
